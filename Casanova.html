@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Casanova Disability Help Centre</title>
+  </head>
+  <body style="background-color:#ffe6ff;">
+    <h2>Click the button to adjust the settings for Dyslexia and Colour Blindness:</h2>
+    <hr>
+    <div>
+      <table border="true">
+        <th>Change Sizes</th>
+        <th>Change Fonts</th>
+        <th>Change Colors</th>
+        <th>Speech Tools</th>
+        <tr>
+          <td>
+          <table>
+            <tr>
+              <th></th>
+            </tr>
+            <tr>
+              <td><label for="Font Size">Font Size</label></td>
+              <td>  <button type="button" onclick="increasefont();" name="plus">+</button>
+                <button type="button"  onclick="decreasefont();" name="minus">-</button></td>
+            </tr>
+            <tr>
+              <td><label for="Line Height">Line Height</label></td>
+              <td><button type="button" onclick="increaseheight();" name="plus">+</button>
+              <button type="button" onclick="decreaseheight();" name="minus">-</button></td>
+            </tr>
+            <tr>
+              <td><label for="Letter Spacing">Letter Spacing</label></td>
+              <td><button type="button" onclick="increaselspace();" name="plus">+</button>
+              <button type="button" onclick="decreaselspace();" name="minus">-</button></td>
+            </tr>
+            <tr>
+              <td><label for="Word Spacing">Word Spacing</label></td>
+              <td><button type="button" onclick="increasewspace();" name="plus">+</button>
+              <button type="button" onclick="decreasewspace();" name="minus">-</button></td>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr>
+              <label for="Arial"></label>
+              <button type="button" style="font-family:arial" onclick="changefont('Arial');" name="Arial">Arial</button>
+            </tr>
+            <tr>
+              <label for="Verdana"></label>
+              <button type="button" style="font-family:verdana" onclick="changefont('Verdana');" name="Verdana">Verdana</button>
+            </tr>
+            <tr>
+              <label for="Georgia"></label>
+              <button type="button" style="font-family:georgia" onclick="changefont('Georgia');" name="Georgia">Georgia</button>
+            </tr>
+            <tr>
+              <label for="Tahoma"></label>
+              <button type="button" style="font-family:tahoma" onclick="changefont('Tahoma');" name="Tahoma">Tahoma</button>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <table>
+            <tr>
+              <label for="Black"></label>
+              <button type="button" onclick="changecolor('black');" name="black">Black</button>
+            </tr>
+            <tr>
+              <label for="Red"></label>
+              <button type="button" style="color:red" onclick="changecolor('red');" name="red">Red</button>
+            </tr>
+            <tr>
+              <label for="Blue"></label>
+              <button type="button" style="color:blue" onclick="changecolor('blue');" name="blue">Blue</button>
+            </tr>
+            <tr>
+              <label for="Green"></label>
+              <button type="button" style="color:green" onclick="changecolor('green');" name="green">Green</button>
+            </tr>
+          </table>
+        </td>
+        <td>
+          <button type="button" onclick="speak();" name="black">Text To Speech</button>
+          <button type="button" onclick="speaktotext();" name="black">Speech To Text</button>
+        </td>
+        </tr>
+      </table>
+    </div>
+    <script type="text/javascript">
+    function increasefont() {
+      var x = document.getElementById("header");
+      x.style.fontSize = "30px";
+    }
+    function decreasefont() {
+      var x = document.getElementById("header");
+      x.style.fontSize = "10px";
+    }
+    function increaseheight() {
+      var x = document.getElementById("header");
+      x.style.lineHeight = "50px";
+    }
+    function decreaseheight() {
+      var x = document.getElementById("header");
+      x.style.lineHeight = "10px";
+    }
+    function increaselspace() {
+      var x = document.getElementById("header");
+      x.style.letterSpacing = "3px";
+    }
+    function decreaselspace() {
+      var x = document.getElementById("header");
+      x.style.letterSpacing = "1px";
+    }
+    function increasewspace() {
+      var x = document.getElementById("header");
+      x.style.wordSpacing = "10px";
+    }
+    function decreasewspace() {
+      var x = document.getElementById("header");
+      x.style.wordSpacing = "1px";
+    }
+    function changefont(value) {
+      var x = document.getElementById("header");
+      x.style.fontFamily = value;
+    }
+    function changecolor(value) {
+      var x = document.getElementById("header");
+      x.style.color = value;
+    }
+    function speak() {
+      const header = document.getElementById("header");
+      const speech = new SpeechSynthesisUtterance();
+      speech.lang = 'en';
+      speech.text = header.value;
+      window.speechSynthesis.speak(speech);
+    }
+    function speaktotext() {
+      const header = document.getElementById("header");
+      // new speech recognition object
+      var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+      var recognition = new SpeechRecognition();
+
+      // This runs when the speech recognition service starts
+      recognition.onstart = function() {
+          console.log("We are listening. Try speaking into the microphone.");
+          header.value = "We are listening. Try speaking into the microphone.";
+      };
+
+      recognition.onspeechend = function() {
+        header.value = "stopped listening";
+          // when user is done speaking
+          recognition.stop();
+      }
+
+      // This runs when the speech recognition service returns result
+      recognition.onresult = function(event) {
+          var transcript = event.results[0][0].transcript;
+          var confidence = event.results[0][0].confidence;
+          header.value = transcript;
+      };
+
+      // start recognition
+      recognition.start();
+    }
+    </script>
+  <hr>
+    <h3>Try it out:</h3>
+
+    <textarea id="header" style= "margin: 0px; width: 940px; height: 175px;">
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog again.</textarea>
+
+
+</body>
+</html>
